@@ -5,10 +5,10 @@
 Initial release. Stdio MCP server with six tools:
 
 - `crawl_site` — live crawl (same-origin, robots.txt respected, capped at 200
-  pages) via [crawlcove-cli](https://github.com/CrawlCove/crawlcove-cli)'s
+  pages) via [crawlcove-cli](https://github.com/CrawlCove/seo-crawler-cli)'s
   crawler; becomes the active dataset.
 - `load_export` — load a Crawl Cove desktop JSON export
-  ([crawlcove-export-spec](https://github.com/CrawlCove/crawlcove-export-spec))
+  ([crawlcove-export-spec](https://github.com/CrawlCove/seo-crawl-export-spec))
   or a crawlcove-cli JSON result from disk.
 - `get_issues` — 11 issue types (broken pages, missing/long/duplicate titles,
   missing/long meta descriptions, missing/multiple H1, noindex, redirect

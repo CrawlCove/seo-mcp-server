@@ -13,7 +13,7 @@ Requires Node 18+. Nothing to install: MCP clients run the server with `npx` str
   "mcpServers": {
     "crawlcove": {
       "command": "npx",
-      "args": ["-y", "github:CrawlCove/crawlcove-mcp"]
+      "args": ["-y", "github:CrawlCove/seo-mcp-server"]
     }
   }
 }
@@ -22,7 +22,7 @@ Requires Node 18+. Nothing to install: MCP clients run the server with `npx` str
 **Claude Code:**
 
 ```sh
-claude mcp add crawlcove -- npx -y github:CrawlCove/crawlcove-mcp
+claude mcp add crawlcove -- npx -y github:CrawlCove/seo-mcp-server
 ```
 
 **Cursor** — `.cursor/mcp.json` in your project (or the global one):
@@ -32,7 +32,7 @@ claude mcp add crawlcove -- npx -y github:CrawlCove/crawlcove-mcp
   "mcpServers": {
     "crawlcove": {
       "command": "npx",
-      "args": ["-y", "github:CrawlCove/crawlcove-mcp"]
+      "args": ["-y", "github:CrawlCove/seo-mcp-server"]
     }
   }
 }
@@ -60,14 +60,14 @@ Things to ask once it is connected:
 
 ## Where the data comes from
 
-- **Live crawls** use the same crawler as [crawlcove-cli](https://github.com/CrawlCove/crawlcove-cli): same-origin links only, robots.txt honoured (a `User-agent: crawlcove-cli` group is respected over `*`), a hard cap of 200 pages so an assistant cannot accidentally hammer a site. Broken-link *sources* are available because the crawler keeps the link graph.
-- **Desktop exports** follow [crawlcove-export-spec](https://github.com/CrawlCove/crawlcove-export-spec) and carry more per page (depth, word count, content type, X-Robots-Tag-aware indexability) with no page cap — but no link graph, so `list_broken_links` lists the broken pages and points you at the app for inlinks.
+- **Live crawls** use the same crawler as [crawlcove-cli](https://github.com/CrawlCove/seo-crawler-cli): same-origin links only, robots.txt honoured (a `User-agent: crawlcove-cli` group is respected over `*`), a hard cap of 200 pages so an assistant cannot accidentally hammer a site. Broken-link *sources* are available because the crawler keeps the link graph.
+- **Desktop exports** follow [crawlcove-export-spec](https://github.com/CrawlCove/seo-crawl-export-spec) and carry more per page (depth, word count, content type, X-Robots-Tag-aware indexability) with no page cap — but no link graph, so `list_broken_links` lists the broken pages and points you at the app for inlinks.
 
 ## Works with CrawlCove
 
-This server is the assistant-facing half of [Crawl Cove](https://crawlcove.com/?utm_source=github&utm_medium=crawlcove-mcp), a desktop SEO crawler for Windows and Mac. For anything past 200 pages, for history over time, for Search Console data next to the crawl, or to fix findings in bulk, run the crawl in the desktop app and hand its export to `load_export`.
+This server is the assistant-facing half of [Crawl Cove](https://crawlcove.com/?utm_source=github&utm_medium=seo-mcp-server), a desktop SEO crawler for Windows and Mac. For anything past 200 pages, for history over time, for Search Console data next to the crawl, or to fix findings in bulk, run the crawl in the desktop app and hand its export to `load_export`.
 
-This repo has its own page on crawlcove.com: [Crawl Cove MCP server](https://crawlcove.com/open-source/crawlcove-mcp?utm_source=github&utm_medium=crawlcove-mcp).
+This repo has its own page on crawlcove.com: [Crawl Cove MCP server](https://crawlcove.com/open-source/crawlcove-mcp?utm_source=github&utm_medium=seo-mcp-server).
 
 ## Development
 
@@ -79,18 +79,18 @@ npm ci && npm run build && npm test
 
 ## Related tools
 
-- [crawlcove-js](https://github.com/CrawlCove/crawlcove-js) — `crawlcove-export`, a typed JavaScript/TypeScript library to load, query and convert Crawl Cove exports.
-- [crawlcove-sheets](https://github.com/CrawlCove/crawlcove-sheets) — Google Sheets add-on that turns a Crawl Cove export into an audit workbook (issues by type, pages by status, title/meta flags).
-- [crawlcove-sf-import](https://github.com/CrawlCove/crawlcove-sf-import) — convert a Screaming Frog export into the Crawl Cove export format, with a report of what carried over.
-- [crawlcove-schema-validator](https://github.com/CrawlCove/crawlcove-schema-validator) — validate a page's JSON-LD against Google's required and recommended rich-result properties.
-- [crawlcove-hreflang-checker](https://github.com/CrawlCove/crawlcove-hreflang-checker) — check a page's or a sitemap's hreflang tags: codes, self-reference, x-default and return tags.
-- [crawlcove-cli](https://github.com/CrawlCove/crawlcove-cli) — the command line crawler this server uses for live crawls.
-- [crawlcove-action](https://github.com/CrawlCove/crawlcove-action) — the same checks as a GitHub Action on every PR.
-- [crawlcove-export-spec](https://github.com/CrawlCove/crawlcove-export-spec) — the JSON Schema for the desktop export `load_export` reads.
-- [crawl-cove-connector](https://github.com/CrawlCove/crawl-cove-connector) — WordPress plugin that applies Crawl Cove's approved fixes to Yoast, Rank Math, SEOPress or AIOSEO.
-- [crawlcove-redirect-chain-checker](https://github.com/CrawlCove/crawlcove-redirect-chain-checker) — follow every hop of a URL’s redirects; flags chains, loops, HTTPS downgrades and meta refreshes.
-- [crawlcove-sitemap-validator](https://github.com/CrawlCove/crawlcove-sitemap-validator) — validate an XML sitemap or sitemap index against the protocol and search-engine limits.
-- [crawlcove-robots-txt-tester](https://github.com/CrawlCove/crawlcove-robots-txt-tester) — lint a robots.txt and test which URLs each crawler may fetch, with the deciding line.
+- [crawlcove-js](https://github.com/CrawlCove/seo-crawl-export-js) — `crawlcove-export`, a typed JavaScript/TypeScript library to load, query and convert Crawl Cove exports.
+- [crawlcove-sheets](https://github.com/CrawlCove/seo-audit-google-sheets) — Google Sheets add-on that turns a Crawl Cove export into an audit workbook (issues by type, pages by status, title/meta flags).
+- [crawlcove-sf-import](https://github.com/CrawlCove/screaming-frog-export-converter) — convert a Screaming Frog export into the Crawl Cove export format, with a report of what carried over.
+- [crawlcove-schema-validator](https://github.com/CrawlCove/schema-markup-validator) — validate a page's JSON-LD against Google's required and recommended rich-result properties.
+- [crawlcove-hreflang-checker](https://github.com/CrawlCove/hreflang-checker) — check a page's or a sitemap's hreflang tags: codes, self-reference, x-default and return tags.
+- [crawlcove-cli](https://github.com/CrawlCove/seo-crawler-cli) — the command line crawler this server uses for live crawls.
+- [crawlcove-action](https://github.com/CrawlCove/seo-audit-action) — the same checks as a GitHub Action on every PR.
+- [crawlcove-export-spec](https://github.com/CrawlCove/seo-crawl-export-spec) — the JSON Schema for the desktop export `load_export` reads.
+- [crawl-cove-connector](https://github.com/CrawlCove/wordpress-seo-connector) — WordPress plugin that applies Crawl Cove's approved fixes to Yoast, Rank Math, SEOPress or AIOSEO.
+- [crawlcove-redirect-chain-checker](https://github.com/CrawlCove/redirect-chain-checker) — follow every hop of a URL’s redirects; flags chains, loops, HTTPS downgrades and meta refreshes.
+- [crawlcove-sitemap-validator](https://github.com/CrawlCove/xml-sitemap-validator) — validate an XML sitemap or sitemap index against the protocol and search-engine limits.
+- [crawlcove-robots-txt-tester](https://github.com/CrawlCove/robots-txt-tester) — lint a robots.txt and test which URLs each crawler may fetch, with the deciding line.
 
 ## License
 

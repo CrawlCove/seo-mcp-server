@@ -21,7 +21,7 @@ export const MAX_LIVE_PAGES = 200
 const DEFAULT_LIVE_PAGES = 50
 const DEFAULT_LIST_LIMIT = 50
 
-const DESKTOP_URL = 'https://crawlcove.com/?utm_source=github&utm_medium=crawlcove-mcp'
+const DESKTOP_URL = 'https://crawlcove.com/?utm_source=github&utm_medium=seo-mcp-server'
 const NO_DATASET =
   'No crawl data loaded yet. Call crawl_site with a URL for a live crawl (up to ' +
   `${MAX_LIVE_PAGES} pages), or load_export with the path to a Crawl Cove desktop export or crawlcove-cli JSON file.`
@@ -72,7 +72,7 @@ export function createServer(opts: ServerOptions = {}): { server: McpServer; sta
       try {
         const result = await crawl(url, {
           ...DEFAULT_CRAWL_OPTIONS,
-          userAgent: 'crawlcove-mcp/1.0 (+https://github.com/CrawlCove/crawlcove-mcp)',
+          userAgent: 'crawlcove-mcp/1.0 (+https://github.com/CrawlCove/seo-mcp-server)',
           maxPages: Math.min(maxPages ?? DEFAULT_LIVE_PAGES, MAX_LIVE_PAGES),
           ignoreRobots: ignoreRobots ?? false
         })

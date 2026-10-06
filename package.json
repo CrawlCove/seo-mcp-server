@@ -33,12 +33,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CrawlCove/crawlcove-mcp.git"
+    "url": "https://github.com/CrawlCove/seo-mcp-server.git"
   },
-  "homepage": "https://crawlcove.com/?utm_source=github&utm_medium=crawlcove-mcp",
+  "homepage": "https://crawlcove.com/?utm_source=github&utm_medium=seo-mcp-server",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.31.0",
-    "crawlcove": "github:CrawlCove/crawlcove-cli#v1.1.2",
+    "crawlcove": "github:CrawlCove/seo-crawler-cli#v1.1.2",
     "zod": "^4.6.5"
   },
   "devDependencies": {
