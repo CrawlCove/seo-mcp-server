@@ -1,3 +1,5 @@
+<a href="https://crawlcove.com/download?utm_source=github&utm_medium=readme&utm_campaign=seo-mcp-server"><img src="https://raw.githubusercontent.com/CrawlCove/.github/main/banners/seo-mcp-server.svg" width="1200" alt="seo-mcp-server: Crawl a site, list SEO issues, inspect pages and find broken links from inside Claude, Cursor and other AI assistants." /></a>
+
 # crawlcove-mcp
 
 An MCP server that gives Claude, Cursor, Claude Code and any other MCP client your site's SEO crawl data — ask "which pages are missing meta descriptions?", "what links to the 404s?", or "crawl staging and tell me what's wrong" and get answers from a real crawl, not a guess.
