@@ -6,7 +6,7 @@ An **SEO MCP server** for Claude, Cursor, Claude Code and any other MCP client: 
 
 <img src="docs/demo.svg" width="980" alt="Terminal recording: calling the crawl_site tool on the SEO test site returns 80 pages and 10 issues by type">
 
-*The `crawl_site` tool called through the MCP Inspector CLI against [seo-test-site](https://github.com/CrawlCove/seo-test-site), a public site with 54 planted SEO problems. In Claude or Cursor the assistant makes the same call when you ask it to crawl a site.*
+*The `crawl_site` tool called through the MCP Inspector CLI against [seo-test-site](https://github.com/CrawlCove/seo-test-site), a public site full of planted SEO problems. In Claude or Cursor the assistant makes the same call when you ask it to crawl a site.*
 
 ## Quick start
 
