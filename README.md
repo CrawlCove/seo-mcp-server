@@ -1,14 +1,26 @@
 <a href="https://crawlcove.com/download?utm_source=github&utm_medium=readme&utm_campaign=seo-mcp-server"><img src="https://raw.githubusercontent.com/CrawlCove/.github/main/banners/seo-mcp-server.svg" width="1200" alt="seo-mcp-server: Crawl a site, list SEO issues, inspect pages and find broken links from inside Claude, Cursor and other AI assistants." /></a>
 
-# crawlcove-mcp
+# seo-mcp-server
 
-An MCP server that gives Claude, Cursor, Claude Code and any other MCP client your site's SEO crawl data — ask "which pages are missing meta descriptions?", "what links to the 404s?", or "crawl staging and tell me what's wrong" and get answers from a real crawl, not a guess.
+An **SEO MCP server** for Claude, Cursor, Claude Code and any other MCP client: it crawls your site and answers from the real crawl data. Ask "which pages are missing meta descriptions?", "what links to the 404s?" or "crawl staging and tell me what's wrong" and the assistant calls these tools instead of guessing.
+
+<img src="docs/demo.svg" width="980" alt="Terminal recording: calling the crawl_site tool on the SEO test site returns 80 pages and 10 issues by type">
+
+*The `crawl_site` tool called through the MCP Inspector CLI against [seo-test-site](https://github.com/CrawlCove/seo-test-site), a public site with 54 planted SEO problems. In Claude or Cursor the assistant makes the same call when you ask it to crawl a site.*
+
+## Quick start
+
+```sh
+claude mcp add crawlcove -- npx -y github:CrawlCove/seo-mcp-server
+```
+
+Then ask Claude Code: *"Crawl https://crawlcove.github.io/seo-test-site/ and list the broken links with the pages that link to them."* Other clients are below.
 
 ## Setup
 
 Requires Node 18+. Nothing to install: MCP clients run the server with `npx` straight from GitHub (the npm package is coming).
 
-**Claude Desktop** — `claude_desktop_config.json`:
+**Claude Desktop**, in `claude_desktop_config.json`:
 
 ```json
 {
@@ -27,7 +39,7 @@ Requires Node 18+. Nothing to install: MCP clients run the server with `npx` str
 claude mcp add crawlcove -- npx -y github:CrawlCove/seo-mcp-server
 ```
 
-**Cursor** — `.cursor/mcp.json` in your project (or the global one):
+**Cursor**, in `.cursor/mcp.json` in your project (or the global one):
 
 ```json
 {
@@ -62,12 +74,12 @@ Things to ask once it is connected:
 
 ## Where the data comes from
 
-- **Live crawls** use the same crawler as [crawlcove-cli](https://github.com/CrawlCove/seo-crawler-cli): same-origin links only, robots.txt honoured (a `User-agent: crawlcove-cli` group is respected over `*`), a hard cap of 200 pages so an assistant cannot accidentally hammer a site. Broken-link *sources* are available because the crawler keeps the link graph.
-- **Desktop exports** follow [crawlcove-export-spec](https://github.com/CrawlCove/seo-crawl-export-spec) and carry more per page (depth, word count, content type, X-Robots-Tag-aware indexability) with no page cap — but no link graph, so `list_broken_links` lists the broken pages and points you at the app for inlinks.
+- **Live crawls** use the same crawler as [seo-crawler-cli](https://github.com/CrawlCove/seo-crawler-cli): same-origin links only, robots.txt honoured (a `User-agent: crawlcove-cli` group is respected over `*`), a hard cap of 200 pages so an assistant cannot accidentally hammer a site. Broken-link *sources* are available because the crawler keeps the link graph.
+- **Desktop exports** follow [crawlcove-export-spec](https://github.com/CrawlCove/seo-crawl-export-spec) and carry more per page (depth, word count, content type, X-Robots-Tag-aware indexability) with no page cap, but no link graph, so `list_broken_links` lists the broken pages and points you at the app for inlinks.
 
 ## Works with CrawlCove
 
-This server is the assistant-facing half of [Crawl Cove](https://crawlcove.com/?utm_source=github&utm_medium=seo-mcp-server), a desktop SEO crawler for Windows and Mac. For anything past 200 pages, for history over time, for Search Console data next to the crawl, or to fix findings in bulk, run the crawl in the desktop app and hand its export to `load_export`.
+This server is the assistant-facing half of [Crawl Cove](https://crawlcove.com/?utm_source=github&utm_medium=seo-mcp-server), the desktop SEO crawler. For anything past 200 pages, for history over time, for Search Console data next to the crawl, or to fix findings in bulk, run the crawl in the desktop app and hand its export to `load_export`.
 
 This repo has its own page on crawlcove.com: [Crawl Cove MCP server](https://crawlcove.com/open-source/crawlcove-mcp?utm_source=github&utm_medium=seo-mcp-server).
 
@@ -81,20 +93,26 @@ npm ci && npm run build && npm test
 
 ## Related tools
 
-- [crawlcove-js](https://github.com/CrawlCove/seo-crawl-export-js) — `crawlcove-export`, a typed JavaScript/TypeScript library to load, query and convert Crawl Cove exports.
-- [crawlcove-sheets](https://github.com/CrawlCove/seo-audit-google-sheets) — Google Sheets add-on that turns a Crawl Cove export into an audit workbook (issues by type, pages by status, title/meta flags).
-- [crawlcove-sf-import](https://github.com/CrawlCove/screaming-frog-export-converter) — convert a Screaming Frog export into the Crawl Cove export format, with a report of what carried over.
-- [crawlcove-schema-validator](https://github.com/CrawlCove/schema-markup-validator) — validate a page's JSON-LD against Google's required and recommended rich-result properties.
-- [crawlcove-hreflang-checker](https://github.com/CrawlCove/hreflang-checker) — check a page's or a sitemap's hreflang tags: codes, self-reference, x-default and return tags.
-- [crawlcove-cli](https://github.com/CrawlCove/seo-crawler-cli) — the command line crawler this server uses for live crawls.
-- [crawlcove-action](https://github.com/CrawlCove/seo-audit-action) — the same checks as a GitHub Action on every PR.
-- [crawlcove-export-spec](https://github.com/CrawlCove/seo-crawl-export-spec) — the JSON Schema for the desktop export `load_export` reads.
-- [crawl-cove-connector](https://github.com/CrawlCove/wordpress-seo-connector) — WordPress plugin that applies Crawl Cove's approved fixes to Yoast, Rank Math, SEOPress or AIOSEO.
-- [crawlcove-redirect-chain-checker](https://github.com/CrawlCove/redirect-chain-checker) — follow every hop of a URL’s redirects; flags chains, loops, HTTPS downgrades and meta refreshes.
-- [crawlcove-sitemap-validator](https://github.com/CrawlCove/xml-sitemap-validator) — validate an XML sitemap or sitemap index against the protocol and search-engine limits.
-- [crawlcove-robots-txt-tester](https://github.com/CrawlCove/robots-txt-tester) — lint a robots.txt and test which URLs each crawler may fetch, with the deciding line.
-- [seo-chrome-extension](https://github.com/CrawlCove/seo-chrome-extension) — Chrome extension: on-page SEO check of the current tab plus AI answer visibility (which AI crawlers may read it, snippet blocks, llms.txt, extractability score).
+<!-- related:start (generated by CrawlCove/.github scripts/related.mjs) -->
+| Repo | What it does |
+|---|---|
+| [seo-crawler-cli](https://github.com/CrawlCove/seo-crawler-cli) | Crawl a site from a script or CI. Checks status codes, redirect chains, titles, meta descriptions, H1s, canonicals, noindex and broken links, and fails the build on regressions. |
+| [seo-audit-action](https://github.com/CrawlCove/seo-audit-action) | Crawl a staging or preview URL on every pull request. Fails the check on broken links, missing titles, noindex and redirect chains, with the details as a PR comment. |
+| [claude-seo-plugin](https://github.com/CrawlCove/claude-seo-plugin) | Seven SEO skills for Claude Code backed by a real site crawl: audits, broken links, redirects, titles and fixes, from a chat. |
+| [seo-chrome-extension](https://github.com/CrawlCove/seo-chrome-extension) | On-page SEO checker with an AI visibility report: which AI crawlers can read the page, snippet blocks, llms.txt and extractability. Nothing leaves the browser. |
+| [xml-sitemap-validator](https://github.com/CrawlCove/xml-sitemap-validator) | Check a sitemap or sitemap index against the sitemaps.org protocol and search engine limits. Flags bad URLs, lastmod dates and cross-host entries. |
+| [robots-txt-tester](https://github.com/CrawlCove/robots-txt-tester) | Fetch and lint a robots.txt, test which URLs each crawler may fetch and see the deciding line. Fails deploys that block the site. |
+| [redirect-chain-checker](https://github.com/CrawlCove/redirect-chain-checker) | Follow every hop of a URL's redirects and flag chains, loops, HTTPS downgrades, meta refreshes and redirects to error pages. |
+| [hreflang-checker](https://github.com/CrawlCove/hreflang-checker) | Validate the hreflang tags on a page or across a whole XML sitemap, including self-reference, x-default and return tags. |
+| [schema-markup-validator](https://github.com/CrawlCove/schema-markup-validator) | Check every schema.org node on a page against the required and recommended properties for rich results. |
+| [seo-test-site](https://github.com/CrawlCove/seo-test-site) | A deliberately broken SEO test site with 54 planted problems and the expected findings, for testing any SEO crawler. |
+| [seo-crawl-export-spec](https://github.com/CrawlCove/seo-crawl-export-spec) | An open format for site crawl data: JSON Schema and CSV column reference, with a real sample export and a validator script. |
+| [seo-crawl-export-js](https://github.com/CrawlCove/seo-crawl-export-js) | Load, query and convert site crawl data in JavaScript and TypeScript, with typed pages, issues by type and status filters. |
+| [screaming-frog-export-converter](https://github.com/CrawlCove/screaming-frog-export-converter) | Turn an SEO Spider internal_all.csv into the open JSON crawl export format, with a report of which columns carried over. |
+| [seo-audit-google-sheets](https://github.com/CrawlCove/seo-audit-google-sheets) | An Apps Script add-on that turns a site crawl export into an audit workbook: pages, issues by type, pages by status and title and meta flags. |
+| [wordpress-seo-connector](https://github.com/CrawlCove/wordpress-seo-connector) | Bulk-apply fixes from the Crawl Cove desktop crawler to Yoast SEO, Rank Math, SEOPress or AIOSEO, with a change log and one-click revert. |
+<!-- related:end -->
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE).

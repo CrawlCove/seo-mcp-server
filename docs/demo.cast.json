@@ -1,0 +1,64 @@
+{
+ "recorded": "2026-11-20T00:11:04.118Z",
+ "steps": [
+  {
+   "show": "npx @modelcontextprotocol/inspector --cli npx github:CrawlCove/seo-mcp-server --method tools/call --tool-name crawl_site --tool-arg url=https://crawlcove.github.io/seo-test-site/ --tool-arg maxPages=100 | jq -r '.content[0].text'",
+   "exit": 0,
+   "ms": 2304,
+   "lines": [
+    {
+     "t": 2300,
+     "text": "live crawl of https://crawlcove.github.io/seo-test-site/: 80 pages, 10 issues, 1 URLs skipped per robots.txt."
+    },
+    {
+     "t": 2300,
+     "text": ""
+    },
+    {
+     "t": 2300,
+     "text": "Issue counts:"
+    },
+    {
+     "t": 2300,
+     "text": "- broken-page: 2"
+    },
+    {
+     "t": 2300,
+     "text": "- missing-title: 1"
+    },
+    {
+     "t": 2300,
+     "text": "- long-title: 1"
+    },
+    {
+     "t": 2300,
+     "text": "- duplicate-title: 2"
+    },
+    {
+     "t": 2300,
+     "text": "- missing-meta-description: 1"
+    },
+    {
+     "t": 2300,
+     "text": "- missing-h1: 1"
+    },
+    {
+     "t": 2300,
+     "text": "- multiple-h1: 1"
+    },
+    {
+     "t": 2300,
+     "text": "- noindex: 1"
+    },
+    {
+     "t": 2300,
+     "text": ""
+    },
+    {
+     "t": 2300,
+     "text": "Next: get_issues for the list, get_page for one URL, list_broken_links for link sources."
+    }
+   ]
+  }
+ ]
+}

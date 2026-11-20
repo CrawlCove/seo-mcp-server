@@ -223,6 +223,26 @@ export function isNoindex(p: Page): boolean {
   return p.robotsMeta !== null && /noindex/i.test(p.robotsMeta)
 }
 
+/**
+ * True when the page's rel=canonical names a different URL. Such a page declares
+ * itself a copy (a `?sort=` variant of a category, a print view), so sharing its
+ * title with the canonical page is expected, not a duplicate-title problem.
+ */
+export function canonicalizesElsewhere(p: Page): boolean {
+  if (!p.canonical) return false
+  const norm = (u: string, base?: string): string => {
+    try {
+      const x = new URL(u, base)
+      x.hash = ''
+      return x.href
+    } catch {
+      return u
+    }
+  }
+  const target = norm(p.canonical, p.finalUrl ?? p.url)
+  return target !== norm(p.url) && target !== norm(p.finalUrl ?? p.url)
+}
+
 /** Every issue on every page, in ISSUE_TYPES order then page order. */
 export function findIssues(dataset: Dataset, only?: IssueType): Issue[] {
   const issues: Issue[] = []
@@ -230,9 +250,13 @@ export function findIssues(dataset: Dataset, only?: IssueType): Issue[] {
   const pages = dataset.pages
   const okHtml = (p: Page) => p.statusCode === 200 && p.fetchError === null
 
+  // Only pages that compete in search share a title in a way that matters: a noindex
+  // page, one whose canonical names another URL, or a URL that redirected (the same
+  // page as its destination, e.g. /blog -> /blog/) is not a duplicate of anything.
+  const competes = (p: Page) => okHtml(p) && p.redirectHops === 0 && !isNoindex(p) && !canonicalizesElsewhere(p)
   const titleCounts = new Map<string, number>()
   for (const p of pages) {
-    if (okHtml(p) && p.title) titleCounts.set(p.title, (titleCounts.get(p.title) ?? 0) + 1)
+    if (competes(p) && p.title) titleCounts.set(p.title, (titleCounts.get(p.title) ?? 0) + 1)
   }
 
   const byType = Object.fromEntries(ISSUE_TYPES.map((t) => [t, [] as Issue[]])) as unknown as Record<IssueType, Issue[]>
@@ -246,7 +270,7 @@ export function findIssues(dataset: Dataset, only?: IssueType): Issue[] {
     else {
       if ((p.titleLength ?? p.title.length) > TITLE_MAX)
         byType['long-title'].push({ type: 'long-title', url: p.url, detail: `${p.titleLength ?? p.title.length} chars: "${p.title}"` })
-      if ((titleCounts.get(p.title) ?? 0) > 1)
+      if (competes(p) && (titleCounts.get(p.title) ?? 0) > 1)
         byType['duplicate-title'].push({ type: 'duplicate-title', url: p.url, detail: `"${p.title}" is used on ${titleCounts.get(p.title)} pages` })
     }
     if (!p.metaDescription || p.metaDescription.trim() === '')
@@ -327,7 +351,7 @@ export function describe(dataset: Dataset): string {
         : `live crawl of ${dataset.origin}`
   return (
     `${where}: ${dataset.pages.length} pages, ${total} issues` +
-    (dataset.truncated ? ' (crawl stopped at the page cap — the desktop app has no cap)' : '') +
+    (dataset.truncated ? ' (crawl stopped at the page cap; the desktop app has no cap)' : '') +
     (dataset.robotsBlocked.length > 0 ? `, ${dataset.robotsBlocked.length} URLs skipped per robots.txt` : '') +
     '.'
   )

@@ -1,6 +1,6 @@
 {
   "name": "crawlcove-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MCP server that gives Claude, Cursor and other AI assistants your site's SEO crawl data: crawl a site, list issues, inspect pages, find broken links.",
   "type": "module",
   "bin": {

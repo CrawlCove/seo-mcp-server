@@ -22,7 +22,7 @@ export function createServer(opts = {}) {
     const readFile = opts.readFile ?? ((p) => readFileSync(p, 'utf8'));
     const now = opts.now ?? (() => new Date());
     const state = { dataset: null };
-    const server = new McpServer({ name: 'crawlcove', version: '1.0.0' });
+    const server = new McpServer({ name: 'crawlcove', version: '1.1.0' });
     server.registerTool('crawl_site', {
         title: 'Crawl a site',
         description: `Crawl a website live (same-origin, breadth-first, robots.txt respected) and make the result the active dataset for the other tools. ` +
@@ -145,7 +145,7 @@ export function createServer(opts = {}) {
         if (links === null) {
             const broken = findIssues(state.dataset, 'broken-page');
             const shown = broken.slice(0, cap);
-            return text(`${broken.length} broken page(s). This desktop export has no link graph, so sources are not listed here — open the run in Crawl Cove (${DESKTOP_URL}) for inlinks, or crawl_site for a live crawl with sources.\n` +
+            return text(`${broken.length} broken page(s). This desktop export has no link graph, so sources are not listed here; open the run in Crawl Cove (${DESKTOP_URL}) for inlinks, or crawl_site for a live crawl with sources.\n` +
                 shown.map((i) => `- ${i.url} — ${i.detail}`).join('\n'), { brokenPages: shown, total: broken.length, hasLinkGraph: false });
         }
         const shown = links.slice(0, cap);

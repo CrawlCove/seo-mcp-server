@@ -53,7 +53,7 @@ describe('crawlcove MCP server over an in-memory transport', () => {
     const r = await call('crawl_site', { url: 'https://acme.test/' })
     expect(r.isError).toBeUndefined()
     expect(crawlCalls).toEqual([{ url: 'https://acme.test/', maxPages: 50, ignoreRobots: false }])
-    expect(textOf(r)).toMatch(/live crawl of https:\/\/acme.test\/: 6 pages, 11 issues/)
+    expect(textOf(r)).toMatch(/live crawl of https:\/\/acme.test\/: 6 pages, 9 issues/)
     expect(r.structuredContent).toMatchObject({ pageCount: 6, robotsBlocked: 1 })
   })
 

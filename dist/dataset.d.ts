@@ -95,6 +95,12 @@ export declare function fromCliResult(data: CliResultLike, origin: string, sourc
 export declare function fromJsonText(text: string, origin: string): Dataset;
 export declare function isBrokenPage(p: Page): boolean;
 export declare function isNoindex(p: Page): boolean;
+/**
+ * True when the page's rel=canonical names a different URL. Such a page declares
+ * itself a copy (a `?sort=` variant of a category, a print view), so sharing its
+ * title with the canonical page is expected, not a duplicate-title problem.
+ */
+export declare function canonicalizesElsewhere(p: Page): boolean;
 /** Every issue on every page, in ISSUE_TYPES order then page order. */
 export declare function findIssues(dataset: Dataset, only?: IssueType): Issue[];
 export declare function countIssues(dataset: Dataset): Record<IssueType, number>;

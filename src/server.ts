@@ -53,7 +53,7 @@ export function createServer(opts: ServerOptions = {}): { server: McpServer; sta
   const now = opts.now ?? (() => new Date())
   const state: ServerState = { dataset: null }
 
-  const server = new McpServer({ name: 'crawlcove', version: '1.0.0' })
+  const server = new McpServer({ name: 'crawlcove', version: '1.1.0' })
 
   server.registerTool(
     'crawl_site',
@@ -198,7 +198,7 @@ export function createServer(opts: ServerOptions = {}): { server: McpServer; sta
         const broken = findIssues(state.dataset, 'broken-page')
         const shown = broken.slice(0, cap)
         return text(
-          `${broken.length} broken page(s). This desktop export has no link graph, so sources are not listed here — open the run in Crawl Cove (${DESKTOP_URL}) for inlinks, or crawl_site for a live crawl with sources.\n` +
+          `${broken.length} broken page(s). This desktop export has no link graph, so sources are not listed here; open the run in Crawl Cove (${DESKTOP_URL}) for inlinks, or crawl_site for a live crawl with sources.\n` +
             shown.map((i) => `- ${i.url} — ${i.detail}`).join('\n'),
           { brokenPages: shown, total: broken.length, hasLinkGraph: false }
         )

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.0, 2026-11-20
+
+- `duplicate-title` only compares pages that compete in search: a noindex page,
+  a page whose canonical names another URL (a `?sort=` variant of a category)
+  or a URL that redirected (`/blog` to `/blog/`) no longer counts. On
+  [seo-test-site](https://github.com/CrawlCove/seo-test-site) the count goes
+  from 31 to the 2 pages that really share a title.
+- Plain punctuation in two tool messages.
+
 ## 1.0.0 — 2026-09-29
 
 Initial release. Stdio MCP server with six tools:

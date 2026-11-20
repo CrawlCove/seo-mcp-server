@@ -45,10 +45,31 @@ describe('issues', () => {
     expect(counts['missing-meta-description']).toBe(1)
     expect(counts['missing-h1']).toBe(1)
     expect(counts['missing-canonical']).toBe(1)
-    expect(counts['duplicate-title']).toBe(4) // "/", "/old", "/hidden" and "/blog" all carry the fixture's default "A page"
+    expect(counts["duplicate-title"]).toBe(2) // "/" and "/blog" share the default "A page"; "/hidden" is noindex and "/old" redirected, so neither competes
     expect(counts.noindex).toBe(1)
     expect(counts['redirect-chain']).toBe(1)
     expect(counts['long-title']).toBe(0)
+  })
+
+  it('does not call canonicalised variants or noindex pages duplicate titles', () => {
+    const page = (url: string, extra: Record<string, unknown> = {}) => ({
+      url, finalUrl: url, statusCode: 200, redirectHops: 0, fetchError: null, title: 'Shop | Harbour Lights', titleLength: 21,
+      metaDescription: 'd', metaLength: 1, h1Count: 1, canonical: url, robotsMeta: null, indexable: true, brokenInternalLinks: [], ...extra
+    })
+    const shop = 'https://acme.test/shop/'
+    const result = {
+      seedUrl: shop, crawledAt: '2026-11-20T00:00:00.000Z', maxPages: 100, pageCount: 5, truncated: false,
+      pages: [
+        page(shop),
+        page(shop + '?sort=price', { canonical: shop }),
+        page(shop + '?colour=blue', { canonical: '/shop/' }),
+        page('https://acme.test/old-shop', { robotsMeta: 'noindex', indexable: false }),
+        page('https://acme.test/shop-copy')
+      ]
+    }
+    const issues = findIssues(fromJsonText(JSON.stringify(result), 'r.json'), 'duplicate-title')
+    expect(issues.map((i) => i.url)).toEqual([shop, 'https://acme.test/shop-copy'])
+    expect(issues[0].detail).toBe('"Shop | Harbour Lights" is used on 2 pages')
   })
 
   it('filters by type and orders by ISSUE_TYPES', () => {
